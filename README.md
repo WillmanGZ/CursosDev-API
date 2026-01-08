@@ -1,6 +1,6 @@
 # CursosDev - Course Management Platform
 
-A Full Stack application for managing courses and lessons, built with **.NET 10 (Hexagonal Architecture)** and **Angular 21**.
+A Full Stack application for managing courses and lessons, built with **.NET 10** and **Angular 21**.
 
 ## 🚀 Getting Started
 
@@ -35,7 +35,7 @@ The easiest way to run the application is using Docker Compose. Authentication c
 
 3.  **Access the application:**
     - **Frontend:** [http://localhost:4200](http://localhost:4200)
-    - **API Swagger:** [http://localhost:5000/swagger](http://localhost:5000/swagger)
+    - **API Swagger:** [http://localhost:5000/index.html](http://localhost:5000/index.html)
 
 ---
 
