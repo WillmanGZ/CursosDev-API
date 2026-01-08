@@ -4,6 +4,6 @@ namespace CursosDev.Domain.Ports.In
 {
     public interface IUpdateLesson
     {
-        public Lesson? updateLesson(Lesson lesson);
+        public Lesson? Execute(Lesson lesson);
     }
 }

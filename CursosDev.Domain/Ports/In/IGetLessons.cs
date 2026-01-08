@@ -4,6 +4,6 @@ namespace CursosDev.Domain.Ports.In
 {
     public interface IGetLessons
     {
-        public List<Lesson> getLessons();
+        public List<Lesson> Execute();
     }
 }

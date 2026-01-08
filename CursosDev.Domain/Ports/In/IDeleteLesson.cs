@@ -2,6 +2,6 @@
 {
     public interface IDeleteLesson
     {
-        public bool DeleteLesson(Guid id);
+        public bool Execute(Guid id);
     }
 }

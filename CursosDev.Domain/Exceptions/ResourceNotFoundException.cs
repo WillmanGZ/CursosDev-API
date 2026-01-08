@@ -1,8 +1,8 @@
 ﻿namespace CursosDev.Domain.Exceptions
 {
-    public abstract class ResourceNotFoundException : Exception
+    public class ResourceNotFoundException : Exception
     {
-        protected ResourceNotFoundException(string message) : base(message)
+        public ResourceNotFoundException(string message) : base(message)
         {
         }
     }

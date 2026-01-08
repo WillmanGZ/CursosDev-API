@@ -4,6 +4,6 @@ namespace CursosDev.Domain.Ports.In
 {
     public interface ICreateLesson
     {
-        public Lesson? CreateLesson(Lesson lesson);
+        public Lesson? Execute(Lesson lesson);
     }
 }
