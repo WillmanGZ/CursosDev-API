@@ -9,9 +9,33 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=CursosDevDb;Username=postgres;Password=password123
+      - Jwt__Key=CursosDevSuperSecretKeyForJwtAuthenticationMustBeAtLeast32Characters!
+      - Jwt__Issuer=CursosDev
+      - Jwt__Audience=CursosDevUsers
+      - Jwt__ExpirationMinutes=60
     depends_on:
       db:
         condition: service_healthy
+      cursos-tests:
+        condition: service_completed_successfully
+
+  cursos-web:
+    image: cursosdev-web
+    build:
+      context: ./CursosDev.Web
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - cursos-api
+
+  cursos-tests:
+    image: mcr.microsoft.com/dotnet/sdk:10.0
+    container_name: cursosdev_tests
+    volumes:
+      - .:/src
+    working_dir: /src
+    command: dotnet test CursosDev.Tests/CursosDev.Tests.csproj
 
   db:
     image: postgres:17-alpine

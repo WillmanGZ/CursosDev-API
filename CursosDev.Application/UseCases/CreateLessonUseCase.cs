@@ -25,6 +25,12 @@ namespace CursosDev.Application.UseCases
                 throw new ArgumentException("Lesson title must be provided", nameof(lesson.Title));
             }
 
+            var existingLessons = _lessonRepository.GetLessonsByCourseId(lesson.CourseId);
+            if (existingLessons.Any(l => l.Order == lesson.Order))
+            {
+                throw new InvalidOperationException($"A lesson with order {lesson.Order} already exists in this course.");
+            }
+
             return _lessonRepository.CreateLesson(lesson);
         }
     }

@@ -1,0 +1,47 @@
+<div>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-white">Cursos</h1>
+    <a routerLink="/courses/new" class="btn-primary"> + Nuevo Curso </a>
+  </div>
+
+  @if (loading()) {
+  <div class="text-center py-12">
+    <div
+      class="animate-spin w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full mx-auto"
+    ></div>
+    <p class="text-gray-400 mt-4">Cargando cursos...</p>
+  </div>
+  } @else if (courses().length === 0) {
+  <div class="card p-12 text-center">
+    <span class="text-4xl">📚</span>
+    <h2 class="text-xl font-semibold text-white mt-4">No hay cursos</h2>
+    <p class="text-gray-400 mt-2">Crea tu primer curso para comenzar</p>
+    <a routerLink="/courses/new" class="btn-primary mt-4 inline-block"> Crear Curso </a>
+  </div>
+  } @else {
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (course of courses(); track course.id) {
+    <div class="card p-6 hover:ring-2 hover:ring-primary-500 transition-all">
+      <div class="flex justify-between items-start">
+        <h3 class="text-lg font-semibold text-white">{{ course.title }}</h3>
+        <span [class]="getStatusClass(course.status)" class="px-2 py-1 rounded text-xs font-medium">
+          {{ course.status === 'Published' ? 'Publicado' : 'Borrador' }}
+        </span>
+      </div>
+      <p class="text-gray-400 text-sm mt-2">Creado: {{ course.createdAt | date : 'dd/MM/yyyy' }}</p>
+      <div class="flex gap-2 mt-4">
+        <a [routerLink]="['/courses', course.id]" class="btn-secondary text-sm flex-1 text-center">
+          Ver
+        </a>
+        @if (course.status === 'Draft') {
+        <button (click)="publish(course.id)" class="btn-primary text-sm">Publicar</button>
+        } @else {
+        <button (click)="unpublish(course.id)" class="btn-secondary text-sm">Despublicar</button>
+        }
+        <button (click)="delete(course.id)" class="btn-danger text-sm">🗑</button>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</div>

@@ -1,0 +1,70 @@
+<div class="max-w-2xl">
+  <div class="flex items-center gap-4 mb-6">
+    <a routerLink="/courses" class="text-gray-400 hover:text-white"> ← Volver </a>
+    <h1 class="text-2xl font-bold text-white">
+      {{ isEdit() ? 'Editar Curso' : 'Nuevo Curso' }}
+    </h1>
+  </div>
+
+  <div class="card p-6">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Título del Curso</label>
+        <input
+          type="text"
+          formControlName="title"
+          class="input"
+          placeholder="Ej: Curso de Angular Avanzado"
+        />
+      </div>
+
+      <div class="flex gap-4 mt-6">
+        <button
+          type="submit"
+          [disabled]="loading() || form.invalid"
+          class="btn-primary"
+          [class.opacity-50]="loading()"
+        >
+          {{ loading() ? 'Guardando...' : isEdit() ? 'Actualizar' : 'Crear Curso' }}
+        </button>
+        <a routerLink="/courses" class="btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+
+  @if (isEdit() && course()) {
+  <div class="mt-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold text-white">Lecciones</h2>
+      <a
+        [routerLink]="['/lessons/new']"
+        [queryParams]="{ courseId: course()?.id }"
+        class="btn-primary text-sm"
+      >
+        + Nueva Lección
+      </a>
+    </div>
+
+    @if (lessons().length === 0) {
+    <p class="text-gray-400">Este curso no tiene lecciones aún.</p>
+    } @else {
+    <div class="space-y-2">
+      @for (lesson of lessons(); track lesson.id) {
+      <div class="card p-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <span class="text-gray-500">{{ lesson.order }}.</span>
+          <span class="text-white">{{ lesson.title }}</span>
+        </div>
+        <div class="flex gap-2">
+          <a [routerLink]="['/lessons', lesson.id, 'edit']" class="btn-secondary text-sm">
+            Editar
+          </a>
+          <button (click)="deleteLesson(lesson.id)" class="btn-danger text-sm">🗑</button>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+  }
+</div>

@@ -1,9 +1,7 @@
 <Solution>
-  <Folder Name="/Elementos de la solución/">
-    <File Path="docker-compose.yml" />
-  </Folder>
   <Project Path="CursosDev.Api/CursosDev.Api.csproj" />
   <Project Path="CursosDev.Application/CursosDev.Application.csproj" />
   <Project Path="CursosDev.Domain/CursosDev.Domain.csproj" />
   <Project Path="CursosDev.Infrastructure/CursosDev.Infrastructure.csproj" />
+  <Project Path="CursosDev.Tests/CursosDev.Tests.csproj" />
 </Solution>

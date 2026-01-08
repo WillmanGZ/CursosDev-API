@@ -33,6 +33,12 @@ namespace CursosDev.Infrastructure
 
         public Course? updateCourse(Course course)
         {
+            var local = _context.Courses.Local.FirstOrDefault(c => c.Id == course.Id);
+            if (local != null)
+            {
+                _context.Entry(local).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            }
+
             _context.Courses.Update(course);
             _context.SaveChanges();
 

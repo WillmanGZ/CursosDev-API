@@ -1,0 +1,24 @@
+<nav class="bg-gray-800 border-b border-gray-700">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <a routerLink="/" class="flex items-center gap-2">
+          <span class="text-2xl">📚</span>
+          <span class="text-xl font-bold text-white">CursosDev</span>
+        </a>
+      </div>
+
+      @if (authService.isAuthenticated()) {
+      <div class="flex items-center gap-4">
+        <span class="text-gray-300">{{ authService.currentUser()?.fullName }}</span>
+        <button (click)="authService.logout()" class="btn-secondary text-sm">Cerrar Sesión</button>
+      </div>
+      } @else {
+      <div class="flex items-center gap-2">
+        <a routerLink="/auth/login" class="btn-secondary text-sm">Iniciar Sesión</a>
+        <a routerLink="/auth/register" class="btn-primary text-sm">Registrarse</a>
+      </div>
+      }
+    </div>
+  </div>
+</nav>

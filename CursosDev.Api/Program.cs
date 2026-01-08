@@ -15,7 +15,22 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
+
+// CORS Configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // Swagger/OpenAPI with JWT Bearer support
 builder.Services.AddEndpointsApiExplorer();
@@ -140,10 +155,34 @@ using (var scope = app.Services.CreateScope())
         {
             logger.LogInformation("Database is up to date. No migrations to apply.");
         }
+
+        // Seed Test User
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var defaultUser = await userManager.FindByEmailAsync("test@cursosdev.com");
+        if (defaultUser == null)
+        {
+            logger.LogInformation("Seeding default test user...");
+            var user = new ApplicationUser
+            {
+                UserName = "test@cursosdev.com",
+                Email = "test@cursosdev.com",
+                FullName = "Test User",
+                EmailConfirmed = true
+            };
+            var result = await userManager.CreateAsync(user, "Test123!");
+            if (result.Succeeded)
+            {
+                logger.LogInformation("Default test user created successfully.");
+            }
+            else
+            {
+                logger.LogError("Failed to create default test user: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+            }
+        }
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "An error occurred while applying migrations.");
+        logger.LogError(ex, "An error occurred while applying migrations or seeding data.");
         throw;
     }
 }
@@ -160,6 +199,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAngularApp");
 
 app.UseAuthentication();
 app.UseAuthorization();
