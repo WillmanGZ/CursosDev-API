@@ -93,7 +93,6 @@ Built with **Angular 21** and **Tailwind CSS**.
 - **Core:** Singleton services and guards.
 - **Features:** Modularized features (Auth, Courses, Lessons).
 - **Shared:** Reusable components.
-- **Refactoring:** Validated use of `inject()` and separate HTML templates.
 
 ## 🧪 Running Tests
 
